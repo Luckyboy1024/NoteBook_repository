@@ -1,5 +1,6 @@
+day-2020-03-28
 
-// 交换两个字符
+1.交换两个字符
 #include<stdio.h>
 
 void swap(char *a,char *b)
@@ -17,3 +18,62 @@ int main(void)
     printf("a = %s,b = %s\n",a,b);
     return 0;
 }
+
+2.不借用临时变量，交换两个整型变量的值
+include<stdio.h>
+void swap(int *a,int *b)
+{
+    *a = *a + *b; //10 + 24 = 34 ，有溢出的风险
+    *b = *a - *b; //34 - 24 = 10
+    *a = *a - *b; //34 - 10 = 24
+    //变体如下：
+    //*a = (*a + *b) - (*b = *a);
+}
+#if 0 
+void swap(int *a,int *b)
+{
+    *a = *a * *b;
+    *b = *a / *b;
+    *a = *a / *b;
+}
+#endif
+
+3.采用异或；
+void swap(int *a,int *b)
+{
+    *a = *a ^ *b;
+    *b = *a ^ *b;
+    *a = *a ^ *b;
+    //变体如下
+    //*a = (*a ^ *b) ^ (*b ^ *a);
+}
+
+4.采用异或；但传址传递同一地址
+#include<stdio.h>
+void swap(int *a,int *b)
+{
+    *a = *a ^ *b;
+    *b = *a ^ *b;
+    *a = *a ^ *b;
+}
+int main(void)
+{
+    int a = 10;
+    swap(&a,&a);//都传入a
+    //输出a = 0
+    printf("a = %d\n",a);
+    return 0;
+}
+
+5.
+void swap(int *a,int *b)
+{
+    if(a != b)
+    {
+        *a = *a ^ *b;
+        *b = *a ^ *b;
+        *a = *a ^ *b;
+    }
+}
+
+############################################
